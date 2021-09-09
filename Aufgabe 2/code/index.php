@@ -36,9 +36,9 @@ $files = array_values(array_diff(scandir($pictures_path), array('.', '..')));
 	    <template x-for="pic in pictures">
 	    	<img width=100 :src="'pictures/' + pic" class="thumbnail" :class="{selected: current == pic}" @click="current = pic"/>
 	    </template>
-	    <input type="file" style="display: none" x-ref="upload" x-on:change="upload">
+	    <input type="file" accept=".jpeg" style="display: none" x-ref="upload" x-on:change="upload">
 	    <button @click="$refs.upload.click();">
-	        <svg style="filter: invert(100%)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8 10h-5l9-10 9 10h-5v10h-8v-10zm11 9v3h-14v-3h-2v5h18v-5h-2z"/></svg>
+	        Upload <svg style="filter: invert(100%)" width="24" height="24" viewBox="0 0 24 24"><path d="M8 10h-5l9-10 9 10h-5v10h-8v-10zm11 9v3h-14v-3h-2v5h18v-5h-2z"/></svg>
 	    </button>
 	    <template x-if="current">
 	    	<img :src="'pictures/'+current" />
