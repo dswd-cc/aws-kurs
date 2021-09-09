@@ -1,5 +1,7 @@
 # Setup
 
-1) AWS Cloud9
+## 1) IAM User erstellen
 
-2) 
+## 2) AWS CLoud9 einrichten
+
+Sharing im Team
