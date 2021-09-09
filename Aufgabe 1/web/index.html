@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/bamboo.css">
+        <script src="https://unpkg.com/alpinejs" defer></script>
+        <style>
+            img {
+                margin: 2mm;
+                border-radius: 1mm;
+            }
+            .thumbnail {
+                border: 2px solid grey;
+            }
+            .selected {
+                border-color: blue;
+            }
+        </style>
+    </head>
+    <body x-data="{ 
+    pictures: ['photo1.jpeg', 'photo2.jpeg', 'photo3.jpeg', 'photo4.jpeg', 'photo5.jpeg', 'photo6.jpeg', 'photo7.jpeg', 'photo8.jpeg', 'photo9.jpeg'], 
+    current: null 
+    }">
+        <h1>Meine Fotos</h1>
+	    <template x-for="pic in pictures">
+	    	<img width=100 :src="pic" class="thumbnail" :class="{selected: current == pic}" @click="current = pic"/>
+	    </template>
+	    <div x-show="current">
+	    	<img :src="current" />
+	    </div>
+    </body>
+</html>
