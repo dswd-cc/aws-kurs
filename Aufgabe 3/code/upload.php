@@ -1,14 +1,5 @@
 <?php
-require 'vendor/autoload.php';
-use Aws\DynamoDb\DynamoDbClient;
-use Aws\DynamoDb\Marshaler;
-
-$client = DynamoDbClient::factory([
-    'profile' => 'default',
-    'region'  => 'eu-central-1',
-    'version' => 'latest'
-]);
-$marshaler = new Marshaler();
+require "config.php";
 
 $upload = $_FILES['upload'];
 $name = basename($upload['name']);
@@ -18,7 +9,7 @@ if (strtolower(pathinfo($name)['extension']) != "jpeg") {
     echo "Only pictures allowed";
 } else if (move_uploaded_file($upload['tmp_name'], $uploadfile)) {
     $client->putItem([
-        "TableName" => "aws-kurs-db",
+        "TableName" => $db_table,
         "Item" => $marshaler->marshalItem(["file" => $name, "rating" => 0])
     ]);
     echo '"'.$name.'"';

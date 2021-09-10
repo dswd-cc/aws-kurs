@@ -1,18 +1,8 @@
 <!DOCTYPE html>
 <?php 
-require 'vendor/autoload.php';
-use Aws\DynamoDb\DynamoDbClient;
-use Aws\DynamoDb\Marshaler;
+require "config.php";
 
-$client = DynamoDbClient::factory([
-    'profile' => 'default',
-    'region'  => 'eu-central-1',
-    'version' => 'latest'
-]);
-$marshaler = new Marshaler();
-$pictures_path = "pictures";
-
-$result = $client->scan(['TableName' => 'aws-kurs-db'])['Items'];
+$result = $client->scan(['TableName' => $db_table])['Items'];
 $pictures = [];
 foreach ($result as $item) {
     $pictures[] = $marshaler->unmarshalItem($item);
