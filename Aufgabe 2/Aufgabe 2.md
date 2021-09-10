@@ -39,6 +39,8 @@ Cloud9
 
 ## 3) EC2 Instanz erstellen
 
+EC2 -> Instanzen -> Instanz starten
+
 Schritt 1
 - AMI: Amazon Linux 2
 
