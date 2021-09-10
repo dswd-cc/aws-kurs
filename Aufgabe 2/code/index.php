@@ -14,6 +14,9 @@ $files = array_values(array_diff(scandir($pictures_path), array('.', '..')));
             }
             .thumbnail {
                 border: 2px solid grey;
+                width: 8em;
+                height: 12em;
+                object-fit: cover;
             }
             .selected {
                 border-color: blue;
@@ -34,7 +37,7 @@ $files = array_values(array_diff(scandir($pictures_path), array('.', '..')));
     }'>
         <h1>Meine Fotos</h1>
 	    <template x-for="pic in pictures">
-	    	<img width=100 :src="'pictures/' + pic" class="thumbnail" :class="{selected: current == pic}" @click="current = pic"/>
+	    	<img :src="'pictures/' + pic" class="thumbnail" :class="{selected: current == pic}" @click="current = pic"/>
 	    </template>
 	    <input type="file" accept=".jpeg" style="display: none" x-ref="upload" x-on:change="upload">
 	    <button @click="$refs.upload.click();">

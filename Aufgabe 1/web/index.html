@@ -10,6 +10,9 @@
             }
             .thumbnail {
                 border: 2px solid grey;
+                width: 8em;
+                height: 12em;
+                object-fit: cover;
             }
             .selected {
                 border-color: blue;
@@ -22,10 +25,10 @@
     }">
         <h1>Meine Fotos</h1>
 	    <template x-for="pic in pictures">
-	    	<img width=100 :src="pic" class="thumbnail" :class="{selected: current == pic}" @click="current = pic"/>
+	    	<img :src="pic" class="thumbnail" :class="{selected: current == pic}" @click="current = pic"/>
 	    </template>
-	    <div x-show="current">
+	    <template x-if="current">
 	    	<img :src="current" />
-	    </div>
+	    </template>
     </body>
 </html>
