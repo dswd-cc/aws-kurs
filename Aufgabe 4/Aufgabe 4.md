@@ -32,3 +32,7 @@ In IAM: Rolle erstellen (unter Rollen)
 
 
 ## 3) Rolle verwenden
+
+In EC2: Instanz starten
+- Entweder mit Startvorlage von Aufgabe 3 oder manuell wie in Aufgabe 2
+- IAM Rolle der Instanz zuweisen (aws-kurs-backend)

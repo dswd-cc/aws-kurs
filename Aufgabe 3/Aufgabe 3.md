@@ -12,7 +12,6 @@ In EC2: Starvorlage erstellen
 - Instanztyp: t2.micro
 - Schlüsselpaar: aws-kurs
 - Sicherheitsgruppen: aws-kurs-backend
-- IAM-Instanzprofil (Erweitert): aws-kurs-backend
 - Benutzerdaten: [Daten aus userdata.txt, Dateisystems-ID (Zeile 9) ersetzen]
 
 
