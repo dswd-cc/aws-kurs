@@ -35,4 +35,17 @@ In IAM: Rolle erstellen (unter Rollen)
 
 In EC2: Instanz starten
 - Entweder mit Startvorlage von Aufgabe 3 oder manuell wie in Aufgabe 2
-- IAM Rolle der Instanz zuweisen (aws-kurs-backend)
+- IAM Rolle "aws-kurs-backend" der Instanz zuweisen (Rechtsklick auf Instanz, Security)
+
+
+## 4) Code updaten
+
+In Cloud9:
+- Verzeichnis efs neu einbinden (wie in Aufgabe 2)
+- Code von Aufgbe 4 aus Verzeichnis `code` nach efs rüberkopieren
+- Evtl. auf Instanz einloggen und Berechtigungen vom Pictures-Verzeichnis neu setzen (wie in Aufgabe 2)
+
+Im Browser:
+- Backend über http://IP aufrufen
+- Bilder hochladen und bewerten
+- Seite neu laden um zu testen, dass die Bewertungen dauerhaft gespeichert sind
