@@ -1,36 +1,50 @@
-# Aufgabe 1: Galerie auf S3 hosten
+# Aufgabe 1: IAM User & Cloud9
+
+## 1) IAM User erstellen
+
+In IAM (AWS Konsole -> Services -> IAM):
+- Bentzer -> Benutzer erstellen
+
+Schritt 1:
+- Name: ich (oder was anderes)
+- Zugriffstyp: Zugriffsschlüssel und Passwort
+- Konsolenpasswort: Benutzerdefiniert, Passwort eingeben
+- Zurücksetzen ... erfordern: nein
+
+Schritt 2:
+- Vorhandene Richtlinien direkt anfügen
+- Richtlinien:
+  - PowerUserAccess
+  - IAMReadOnlyAccess
+  - IAMSelfManageServiceSpecificCredentials
+  - IAMUserSSHKeys
+  - IAMUserChangePassword
+- Weiter, Weiter, Benutzer erstellen
+
+Oben rechts: Benutzerdropdown öffnen
+- Accountnummer notieren
+- Logout
+
+Neu einloggen als IAM User
+- Account ID eintragen
+- User: Name aus Schritt 1
+- Passwort
+- Login
 
 
-## 1) S3 -> Bucket erstellen
-- Eindeutiger Name
+## 2) AWS CLoud9 einrichten
 
-## 2) "Hosten einer statischen Website" (Eigenschaften) aktivieren 
-- Indexdokument: "index.html"
+In Cloud9 (AWS Konsole -> Services -> Cloud9):
+- Create Environment
+- Name: aws-kurs
+- Einstellungen lassen
+- Next, Erstellen
 
-## 3) Berechtigungen
-- "Öffentlichen Zugriff beschränken" ausschalten
-- Bucket-Rrichtlinie eintragen. Resource anpassen!
+Warten bis Umgebung läuft
 
-```
-{
-  "Version":"2012-10-17",
-  "Statement":[
-    {
-      "Sid":"PublicRead",
-      "Effect":"Allow",
-      "Principal": "*",
-      "Action":["s3:GetObject","s3:GetObjectVersion"],
-      "Resource":["arn:aws:s3:::DOC-EXAMPLE-BUCKET/*"]
-    }
-  ]
-}
-```
+In Cloud9 (Umgebung)
+- Clone from Github (rechts im Welcome-Dialog)
+- `https://github.com/dswd-cc/aws-kurs.git` hinten an Befehl anhängen, [Enter]
 
-## 4) Fotos hochladen
 
-## 5) Index.html anpassen und hochladen
-
-Fotos z.B. von https://unsplash.com/
-
-## 6) Galerie öffnen
-- Link im S3 Bucket unten bei "statische Website"
+## 3) Optional: Sharing im Team

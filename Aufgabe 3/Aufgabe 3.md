@@ -1,67 +1,84 @@
-# Aufgabe 3: Auto-Scaling und Load-Balancing
+# Aufgabe 3: Galerie Backend mit EC2 und PHP
 
 
-## 1) Startvorlage erstellen
+## 1) Schlüsselpaar erstellen
 
-In EFS: Dateisystems-ID (fs-...) kopieren
+EC2 -> Schlüsselpaare
+- Name: aws-kurs
+- Erstellen
+- Abspeichern als `aws-kurs.pem`
 
-In EC2: Starvorlage erstellen
+Cloud9
+- Schlüsselpaar auf Cloud9 hochladen
+- In Cloud9 neues Terminal erstellen (Ctrl-T)
+- Schlüsselpaar sichern (`chmod 600 aws-kurs.pem` im Terminal)
+
+
+## 2) EFS Speicher erstellen
+
+Neue Sicherheitsgruppe erstellen (EC2 -> Sicherheit)
+- Name: "nfs"
+- Beschreibung: "NFS Zugriff"
+- Eingehende Regeln:
+  - Typ: NFS, Quelle: IPv4 (0.0.0.0/0)
+  - Typ: NFS, Quelle: IPv6 (::/0)
+
+EFS -> Dateisystem erstellen
+- Name: aws-kurs-code
+- "anpassen" und "weiter"
+- Bei "Netzwerkzugriff" 3 mal die Sicherheitsgruppe "nfs" hinzufügen
+- "weiter", "weiter", "erstellen"
+- Warten bis bereit
+- In den Details auf "anfügen" klicken und 2. Befehl (NFS) kopieren
+
+Cloud9
+- Verzeichnis "efs" erstellen
+- Im Terminal kopierten Befehl eingeben
+- `sudo chmod 777 efs` im Terminal eingeben
+
+
+## 3) EC2 Instanz erstellen
+
+EC2 -> Instanzen -> Instanz starten
+
+Schritt 1
+- AMI: Amazon Linux 2
+
+Schritt 2
+- Instance-Typ: t2.micro
+
+Schritt 3
+- "aws-kurs-code" Dateisystem hinzufügen, Mountpunkt: /var/www/html
+
+Schritt 4: weiter
+
+Schritt 5:
+- Labels: Name: aws-kurs-backend
+
+Schritt 6:
 - Name: aws-kurs-backend
-- Anleitugen für Auto-Scaling aktivieren
-- AMI: Amazon Linux 2 (SSD) x86 (!)
-- Instanztyp: t2.micro
-- Schlüsselpaar: aws-kurs
-- Sicherheitsgruppen: aws-kurs-backend
-- Benutzerdaten: [Daten aus userdata.txt, Dateisystems-ID (Zeile 9) ersetzen]
+- HTTP erlauben
+
+Fertig, Starten
+- Schlüsselpaar "aws-kurs" auswählen
+
+Warten bis verfügbar
+Private IP von EC2 Instanz kopieren
 
 
-## 2) Auto-Scaling-Gruppe und Load-Balancer erstellen
+## 4) Webserver einrichten
 
-In EC2: Auto-Scaling Gruppen -> Erstellen
-
-Schritt 1:
-- Name: aws-kurs-backends
-- Startvorlage: aws-kurs-backend
-
-Schritt 2:
-- "Startvorlage beachten"
-- Subnetze: Alle 3 auswählen
-
-Schritt 3:
-- Load-Balancer: neuer Loadbalancer
-- Typ: Application Load Balancer
-- Name: aws-kurs-backends
-- Schema: Internet-Facing
-- Weiterleitung: Neue Zielgruppe
-- Name der Zielgruppe: aws-kurs-backends
-
-Schritt 4:
-- Maximale Kapazität: 2
-- Skalierungsrichtlinie erstellen
-- Richtlinie: CPU Auslastung 50%
-
-Schritte 5 und 6: weiter
-
-Gruppe erstellen
-
-
-## 3) Loadbalancer testen
-
-In EC2: Details vom Loadbalancer öffnen (unter Loadbalancer)
-- Warten bis Zustand = "aktiv"
-- URL vom Loadbalancer kopieren und im Browser aufrufen
-
-In EC2: Private IP von Instanz kopieren
 In Cloud9:
-- Auf Instanz einloggen: `ssh -i aws-kurs.pem IP` (IP einfügen)
-- `md5sum /dev/urandom` (Befehl bleibt aktiv)
+- code nach efs rüberkopieren
+- Neues Terminal öffnen (Ctrl-T)
+- `ssh -i aws-kurs.pem PRIVATE-IP` ausführen, mit "yes" bestätigen
 
-In EC2: Unter "Auto Scaling" -> "Überwachung" die Werte zu CPU und Instanzen beobachten
-- Dauert einige Minuten
-- 2. Instanz wurde erzeugt
+Im gleichen Terminal (SSH auf dem Backend)
+- `sudo yum install -y httpd php`
+- `sudo service httpd start`
+- `sudo chmod 777 /var/www/html/pictures`
 
-In Cloud9: md5sum Befehl mit Ctrl-C beenden
+In EC2 die "öffentliche IP" des Backends kopieren
 
-In EC2: Werte und Instanzen beobachten
-- Dauert wieder einige Minuten
-- 2. Instanz wird wieder beendet
+Im Browser:
+- http://PUBLIC-IP/test.php aufrufen (Achtung: HTTP statt HTTPS)

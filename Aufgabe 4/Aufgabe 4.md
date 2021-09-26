@@ -1,51 +1,67 @@
-# Aufgabe 4: Bewertungsfunktion mit DynamoDB
+# Aufgabe 4: Auto-Scaling und Load-Balancing
 
 
-## 1) Erstellen einer DynamoDB
+## 1) Startvorlage erstellen
 
-DynamoDB -> Tabelle erstellen
-- Tabellenname: aws-kurs-db
-- Partitionsschlüssel: file
-- "Einstellungen anpassen" -> "On demand" auswählen
-- "Tabelle erstellen"
+In EFS: Dateisystems-ID (fs-...) kopieren
 
-
-## 2) Erstellen einer Rolle mit Zugriff auf die Tabelle
-
-In DynamoDB:
-- Tabellen ARN aus den Infos kopieren
-
-In IAM: Richtlinie erstellen (unter Richtlinien)
-- Service: DynamoDB
-- Aktionen: alle
-- Ressourcen -> table: Kopierte ARN einfügen
-- Weiter, keine Tags, Weiter
-- Name: aws-kurs-db-access
-
-
-In IAM: Rolle erstellen (unter Rollen)
-- "EC2" unter "Häufige Anwendungsfälle" wählen
-- Richtlinien: aws-kurs-db-access wählen
-- Weiter, keine Tags, Weiter
+In EC2: Starvorlage erstellen
 - Name: aws-kurs-backend
-- "Rolle erstellen"
+- Anleitugen für Auto-Scaling aktivieren
+- AMI: Amazon Linux 2 (SSD) x86 (!)
+- Instanztyp: t2.micro
+- Schlüsselpaar: aws-kurs
+- Sicherheitsgruppen: aws-kurs-backend
+- Benutzerdaten: [Daten aus userdata.txt, Dateisystems-ID (Zeile 9) ersetzen]
 
 
-## 3) Rolle verwenden
+## 2) Auto-Scaling-Gruppe und Load-Balancer erstellen
 
-In EC2: Instanz starten
-- Entweder mit Startvorlage von Aufgabe 3 oder manuell wie in Aufgabe 2
-- IAM Rolle "aws-kurs-backend" der Instanz zuweisen (Rechtsklick auf Instanz, Security)
+In EC2: Auto-Scaling Gruppen -> Erstellen
+
+Schritt 1:
+- Name: aws-kurs-backends
+- Startvorlage: aws-kurs-backend
+
+Schritt 2:
+- "Startvorlage beachten"
+- Subnetze: Alle 3 auswählen
+
+Schritt 3:
+- Load-Balancer: neuer Loadbalancer
+- Typ: Application Load Balancer
+- Name: aws-kurs-backends
+- Schema: Internet-Facing
+- Weiterleitung: Neue Zielgruppe
+- Name der Zielgruppe: aws-kurs-backends
+
+Schritt 4:
+- Maximale Kapazität: 2
+- Skalierungsrichtlinie erstellen
+- Richtlinie: CPU Auslastung 50%
+
+Schritte 5 und 6: weiter
+
+Gruppe erstellen
 
 
-## 4) Code updaten
+## 3) Loadbalancer testen
 
+In EC2: Details vom Loadbalancer öffnen (unter Loadbalancer)
+- Warten bis Zustand = "aktiv"
+- URL vom Loadbalancer kopieren und im Browser aufrufen
+
+In EC2: Private IP von Instanz kopieren
 In Cloud9:
-- Verzeichnis efs neu einbinden (wie in Aufgabe 2)
-- Code von Aufgbe 4 aus Verzeichnis `code` nach efs rüberkopieren
-- Evtl. auf Instanz einloggen und Berechtigungen vom Pictures-Verzeichnis neu setzen (wie in Aufgabe 2)
+- Auf Instanz einloggen: `ssh -i aws-kurs.pem IP` (IP einfügen)
+- `md5sum /dev/urandom` (Befehl bleibt aktiv)
 
-Im Browser:
-- Backend über http://IP aufrufen
-- Bilder hochladen und bewerten
-- Seite neu laden um zu testen, dass die Bewertungen dauerhaft gespeichert sind
+In EC2: Unter "Auto Scaling" -> "Überwachung" die Werte zu CPU und Instanzen beobachten
+- Dauert einige Minuten
+- 2. Instanz wurde erzeugt
+
+In Cloud9: md5sum Befehl mit Ctrl-C beenden
+
+In EC2: Werte und Instanzen beobachten
+- Dauert wieder einige Minuten
+- 2. Instanz wird wieder beendet
