@@ -58,7 +58,7 @@ Neu einloggen als IAM User
 
 ![image](_img/cloud9-6.png)
 
-**:hourglass: 6. Warten bis Umgebung läuft**
+**:hourglass: 6. Warten bis die Umgebung läuft**
 
 ![image](_img/cloud9-7.png)
 
