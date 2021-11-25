@@ -117,7 +117,7 @@
 ![image](_img/efs-mount-7.png)
 
 
-## 3) EC2 Instanz erstellen
+## 5) EC2 Instanz erstellen
 
 1. Service "EC2" öffnen
 
@@ -168,19 +168,51 @@
 ![image](_img/ec2-14.png)
 
 
-## 4) Webserver einrichten
+## 6) Webserver einrichten
 
-In Cloud9:
-- code nach efs rüberkopieren
-- Neues Terminal öffnen (Ctrl-T)
-- `ssh -i aws-kurs.pem PRIVATE-IP` ausführen, mit "yes" bestätigen
+1. Warten bis Instanz "Läuft". Danach auf "verbinden" klicken.
 
-Im gleichen Terminal (SSH auf dem Backend)
-- `sudo yum install -y httpd php`
-- `sudo service httpd start`
-- `sudo chmod 777 /var/www/html/pictures`
+![image](_img/ec2-setup-1.png)
 
-In EC2 die "öffentliche IP" des Backends kopieren
+2. Reiter "SSH Client" öffnen und unteren Beispielbefehl kopieren.
 
-Im Browser:
-- http://PUBLIC-IP/test.php aufrufen (Achtung: HTTP statt HTTPS)
+![image](_img/ec2-setup-2.png)
+
+3. In Cloud9 im Terminal den kopierten Befehl eingeben ([ENTER] drücken). Nachfrage mit "yes" und [ENTER] bestätigen.
+
+![image](_img/ec2-setup-3.png)
+
+4. In der SSH Verbindung die folgenden 3 Befehle eingeben und jeweils mit [ENTER] bestätigen.
+
+```
+sudo yum install -y httpd php
+sudo service httpd start
+sudo chmod 777 /var/www/html/pictures
+```
+
+![image](_img/ec2-setup-4.png)
+
+![image](_img/ec2-setup-5.png)
+
+![image](_img/ec2-setup-6.png)
+
+5. Den Inhalt von `Aufgabe 3/code` kopieren und nach `efs` kopieren (Achtung: zuerst `efs` markieren und dann Rechtsklick darauf zum Einfügen).
+
+![image](_img/ec2-setup-7.png)
+
+![image](_img/ec2-setup-8.png)
+
+
+## 7) App im Browser öffnen
+
+1. Öffentliche IP in EC2 kopieren
+
+![image](_img/app-1.png)
+
+2. Neuen Browsertab öffnen und "http://" und die kopierte IP eingeben
+
+![image](_img/app-2.png)
+
+In der App können nun Bilder hochgeladen (nur .jpeg) und angesehen werden.
+
+![image](_img/app-3.png)
