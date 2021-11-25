@@ -119,31 +119,53 @@
 
 ## 3) EC2 Instanz erstellen
 
-EC2 -> Instanzen -> Instanz starten
+1. Service "EC2" öffnen
 
-Schritt 1
-- AMI: Amazon Linux 2
+![image](_img/ec2-1.png)
 
-Schritt 2
-- Instance-Typ: t2.micro
+2. "Instances" im linken Menü wählen
 
-Schritt 3
-- "aws-kurs-code" Dateisystem hinzufügen, Mountpunkt: /var/www/html
+![image](_img/ec2-2.png)
 
-Schritt 4: weiter
+3. "Instances starten" anklicken
 
-Schritt 5:
-- Labels: Name: aws-kurs-backend
+![image](_img/ec2-3.png)
 
-Schritt 6:
-- Name: aws-kurs-backend
-- HTTP erlauben
+4. Im Schritt 1 "Amazon Linux 2" wählen
 
-Fertig, Starten
-- Schlüsselpaar "aws-kurs" auswählen
+![image](_img/ec2-4.png)
 
-Warten bis verfügbar
-Private IP von EC2 Instanz kopieren
+5. In Schritt 2 "t2.micro" asl Instanztyp wählen
+
+![image](_img/ec2-5.png)
+
+6. Das EFS Volume `aws-kurs-code` als Speicher hinzufügen. **Pfad auf `/var/www/html` ändern**
+
+![image](_img/ec2-6.png)
+
+![image](_img/ec2-7.png)
+
+7. Namens-Tag `aws-kurs-backend` hinzufügen
+
+![image](_img/ec2-8.png)
+
+![image](_img/ec2-9.png)
+
+8. Eine neue Sicherheitsgruppe anlegen (Name: `aws-kurs-backend`, Beschreibung: `AWS Kurs Backend`) und als neue Regel HTTP erlauben
+
+![image](_img/ec2-10.png)
+
+![image](_img/ec2-11.png)
+
+9. Instanz starten
+
+![image](_img/ec2-12.png)
+
+![image](_img/ec2-13.png)
+
+10. Schlüsselpaar `aws-kurs` auswählen und bestätigen
+
+![image](_img/ec2-14.png)
 
 
 ## 4) Webserver einrichten

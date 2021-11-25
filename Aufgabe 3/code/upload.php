@@ -9,6 +9,6 @@ if (strtolower(pathinfo($name)['extension']) != "jpeg") {
     echo '"'.$name.'"';
 } else {
     http_response_code(500);
-    echo "Internal errpr";
+    echo "Internal error";
 }
 ?>
