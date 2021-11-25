@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php 
 $pictures_path = "pictures";
-$files = array_values(array_diff(scandir($pictures_path), array('.', '..')));
+$files = array_values(array_diff(scandir($pictures_path), array('.', '..', '.keep')));
 ?>
 <html>
     <head>
